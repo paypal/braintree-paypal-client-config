@@ -9,6 +9,7 @@ import { COUNTRY, SDK_SETTINGS, SDK_QUERY_KEYS, INTENT, COMMIT, VAULT, CURRENCY,
 
 import { getPath, getDefaultNamespace, getSDKHost } from './global';
 import { CLIENT_ID_ALIAS } from './config';
+import { getComputedLocales } from './utils';
 
 type GetSDKScript = () => HTMLScriptElement;
 
@@ -209,12 +210,12 @@ export function getPageType() : ?string {
     return pageType.toLowerCase();
 }
 
+
 export function getLocale() : LocaleType {
     const locale = getSDKQueryParam(SDK_QUERY_KEYS.LOCALE);
 
     if (locale) {
-        const [ lang, country ] = locale.split('_');
-        return { lang, country };
+        return getComputedLocales(locale);
     }
 
     for (let { country, lang } of getBrowserLocales()) {
